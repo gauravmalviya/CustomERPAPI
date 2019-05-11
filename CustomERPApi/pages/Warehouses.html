@@ -1,0 +1,148 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Warehouses
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Warehouses</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- .modals -->
+
+    <!--<div class="modal fade" id="alertPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="alertMessage">Username and password should not be blank.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_full" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="modal fade" id="confirmSWarehousePopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="font-size:larger;color:white;background-color:#3c8dbc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Delete Warehouse</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="confirmMessage">Are you sure you want to complete the order</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_no" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_full" ng-click="RemoveWarehouse()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modals -->
+
+    <div class="row jumbotron" ng-show="AddWarehouse" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <!-- right column -->
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">{{WarehousePopupHeading}}</h3>
+                    <h5 class="modal-title" style="color:red">{{Errormessage}}</h5>
+                </div>
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Warehouse Name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="inputEmail3" ng-model="NewWarehouse.WarehouseName" placeholder="Warehouse Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Address</label>
+
+                            <div class="col-sm-3">
+                                <textarea type="text" class="form-control" id="inputEmail3" ng-model="NewWarehouse.Address" placeholder="Warehouse Address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-right" ng-click="CloseAddWarehouse()">Close</button>
+                    <button type="button" ng-click="SaveWarehouse()" class="btn btn-primary pull-right" style="margin-right: 10px;" id="btnSave">{{WarehousePopupBtn}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row jumbotron" ng-show="WarehouseGrid" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Warehouses</h3>
+                    <button ng-click="ClearWarehouse()" style="float:right;width: 150px;" class="btn btn-block btn-primary"><i class="fa fa-group"></i>&nbsp; Add Warehouse</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_filter">
+                            <input ng-model="SearchUser" class="form-control" type="search" placeholder="Search" style="float: right;width: 200px;margin-right: 10px;">
+                            <label style="float: right;margin-right: 10px;margin-top:7px;">Search:</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblWarehouses2" class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" id="tblWarehouses" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortWarehouse('WarehouseName')">
+                                    Warehouse Name
+                                    <span ng-show="sortKey=='WarehouseName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortWarehouse('IsActive')">
+                                    Active Status
+                                    <span ng-show="sortKey=='IsActive'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="Warehouse in Warehouses | itemsPerPage:WarehouseitemsPerPage | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{Warehouse.WarehouseName}}</td>
+                                <td>{{Warehouse.IsActive == 1 ? 'Active' : 'DeActive'}}</td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="EditWarehouse(Warehouse.IDNUMBER)"><i class="fa fa-edit"></i></button></td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="DeleteWarehouse(Warehouse.IDNUMBER)"><i class="fa fa-trash-o"></i></button></td>
+                                <td ng-show="false">{{Warehouse.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="Warehouses.length > 10" class="form-control" ng-model="WarehouseitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="Warehouses.length > 10">&nbsp;&nbsp;  Showing rows of {{Warehouses.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->

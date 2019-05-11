@@ -1,0 +1,512 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Sales
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Sales</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- .modals -->
+
+    <div class="modal fade" id="alertPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="alertMessage">Username and password should not be blank.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_full" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.modals -->
+
+    <div class="row jumbotron" ng-show="AddSales" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <!-- right column -->
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Add Sales</h3>
+                    <h5 class="modal-title" style="color:red">{{Errormessage}}</h5>
+                </div>
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                                    <label for="inputPassword3" class="col-sm-3 control-label" style="text-align:center;">Date</label>
+
+                                    <div class="col-sm-5" style="margin-bottom: 6px;">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="NewSales.SODate" id="datepickerSODate">
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputPassword3" class="col-sm-3 control-label" style="text-align:center;">Customer</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="NewSalesCustomerID" ng-model="NewSales.CustomerID" ng-change="CustomerChange()" ng-options="item.IDNUMBER as item.CustomerName for item in Customers">
+                                            <option value="">Select Customer</option>
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputEmail3" class="col-sm-3 control-label" style="text-align:center;">Address</label>
+
+                                    <div class="col-sm-9" style="margin-bottom: 6px;">
+                                        <textarea type="text" class="form-control" id="inputEmail3" disabled ng-model="NewSales.Customer.CustomerAddress" placeholder="Customer Address"></textarea>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputEmail3" class="col-sm-3 control-label" style="text-align:center;">Contact No</label>
+
+                                    <div class="col-sm-9" style="margin-bottom: 6px;">
+                                        <input type="text" id="UserMobileNo" class="form-control" disabled ng-model="NewSales.Customer.PhoneNo1" onkeypress="return isNumber(event);" placeholder="Contact Number">
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputEmail3" class="col-sm-3 control-label" style="text-align:center;">Email</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="UserMobileNo" class="form-control" disabled ng-model="NewSales.Customer.EmailID" placeholder="Customer Email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12" style="text-align: center;margin-bottom: 10px;">
+                                </div>
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                                    <label for="inputPassword3" class="col-sm-3 control-label" style="text-align:center;">S.O. No</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="UserMobileNo" class="form-control" disabled ng-model="NewSales.SONo" placeholder="Sales Order Number">
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputPassword3" class="col-sm-3 control-label" style="text-align:center;">Shipping Name</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" id="NewSalesShippingName" class="form-control" ng-model="NewSales.ShippingName" placeholder="Shipping Name">
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputEmail3" class="col-sm-3 control-label" style="text-align:center;">Shipping Address</label>
+
+                                    <div class="col-sm-9" style="margin-bottom: 6px;">
+                                        <textarea type="text" class="form-control" id="NewSalesShippingAddress" ng-model="NewSales.ShippingAddress" placeholder="Shipping Address"></textarea>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label for="inputEmail3" class="col-sm-3 control-label" style="text-align:center;">Payment Type</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="NewSales.PaymentType">
+                                            <option value="1" ng-selected="1">Cash</option>
+                                            <option value="2">Credit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Item Name</label>
+
+                            <div class="col-sm-5">
+                                <select class="form-control" id="NewItemVarientID" ng-model="NewItemVarient.ItemVarientID1" ng-options="item.IDNUMBER as item.ItemVarientName for item in ItemVarients">
+                                    <option value="">Select ItemVarient</option>
+                                </select>
+                            </div>
+                            <label for="inputEmail3" class="col-sm-1 control-label">Quantity</label>
+
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="NewItemVarientQty" ng-model="NewItemVarient.Qty1" onkeypress="return isNumber(event);" placeholder="Quantity">
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-1 control-label">Price</label>
+
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="NewItemVarientPrice" ng-model="NewItemVarient.Price1" onkeypress="return isNumber(event);" placeholder="Price">
+                            </div>
+                            <button type="button" class="btn btn-primary col-sm-1" style="margin-right: 10px;" ng-click="AddItemVarient()" onkeypress="return isNumber(event);" id="btnSave">Add Item</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="box-body" style="overflow-x: auto;text-align:  -webkit-center;">
+                                <table datatable="ng" class="table table-hover dataTable" style="width:90%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Image</th>
+                                            <th>Item Name</th>
+                                            <th>Color</th>
+                                            <th>SKU</th>
+                                            <th>UPC</th>
+                                            <th>Qty</th>
+                                            <th>PCS/CTN</th>
+                                            <th>Price</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="itmvrnt in NewSales.ItemVarients track by $index">
+                                            <td style="width:10%;"><img src="{{itmvrnt.ProductImage}}" alt="" class="img-responsive custom-image" id="imgProfileImage" style="cursor:pointer;max-width: 150px;max-height: 80px;"></td>
+                                            <td>{{itmvrnt.ItemName}}</td>
+                                            <td>{{itmvrnt.Color}}</td>
+                                            <td>{{itmvrnt.SKU}}</td>
+                                            <td>{{itmvrnt.UPC}}</td>
+                                            <td style="width:10%;"><input type="text" class="form-control" ng-model="itmvrnt.Qty" ng-change="UpdateAmount($index)" onkeypress="return isNumber(event);" /></td>
+                                            <td>PCS</td>
+                                            <td style="width:10%;"><input type="text" class="form-control" ng-model="itmvrnt.Price" ng-change="UpdateAmount($index)" onkeypress="return isNumber(event);" /></td>
+                                            <td>{{itmvrnt.TotalAmount}}</td>
+                                            
+                                            <td class="text-center">
+                                                <i class="fa fa-times-circle fa-lg text-danger"
+                                                ng-click="remove($index)"
+                                                title="Delete" aria-hidden="true"></i>
+
+                                                <!--<i class="fa fa-plus-circle fa-lg text-success"
+                                                   ng-if="$last"
+                                                   ng-click="add()"
+                                                   title="Add" aria-hidden="true"></i>-->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Total Qty:</th>
+                                            <th>{{NewSales.TotalQty}}</th>
+                                            <th></th>
+                                            <th>Total Amount:</th>
+                                            <th>{{NewSales.SubTotal}}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-group">
+                            <div class="col-lg-7 col-xs-12">
+                            </div>
+                            <div class="col-lg-4 col-xs-12">
+                                <p class="lead">Amount Due</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Sub Total:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" disabled style="width: 100%;font-size:large;text-align: -webkit-right;" ng-model="NewSales.SubTotal" ng-change="UpdateQtyAmount()" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping Cost:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" style="width: 100%;font-size:large;text-align: -webkit-right;" ng-model="NewSales.ShippingCost" ng-change="UpdateQtyAmount()" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" disabled style="width: 100%;font-size:large;text-align: -webkit-right;" ng-model="NewSales.FullTotal" ng-change="UpdateQtyAmount()" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Payment In Words:</th>
+                                            <td style="text-align: -webkit-left;">{{NewSales.PayInWords}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Currency:</th>
+                                            <td style="font-size:large;text-align: -webkit-left;">USD</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Deposite: (in %)</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" style="width: 100%;font-size:large;text-align: -webkit-right;" class="form-control" ng-change="UpdateQtyAmount()" ng-model="NewSales.Deposite" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Before Shipment:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" style="width: 100%;font-size:large;text-align: -webkit-right;" ng-change="UpdateQtyAmount()" ng-model="NewSales.BBShippment" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Balance:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" disabled style="width: 100%;font-size:large;text-align: -webkit-right;" ng-model="NewSales.Total" ng-change="UpdateQtyAmount()" onkeypress="return isNumber(event);"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Incoterm:</th>
+                                            <td style="font-size:large;text-align: -webkit-center;"><input type="text" class="form-control" style="width: 100%;font-size:large;text-align: -webkit-center;" ng-model="NewSales.Incoterms"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-1 col-xs-12">
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <!--<div class="box-footer">
+                        <a href="index.html" class="btn btn-default" style="float:right;margin-left:10px;">Cancel</a>
+                        <a href="Users.html" class="btn btn-info pull-right">Save</a>
+                    </div>-->
+                    <!-- /.box-footer -->
+                </form>
+
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-right" ng-click="CloseAddSales()" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary pull-right" ng-click="SaveSales()" style="margin-right: 10px;" id="btnSave">{{SalesPopupBtn}}</button>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </div>
+
+    <div class="row jumbotron" ng-show="SalesGrid" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Sales Records</h3>
+                    <button style="float:right;width: 150px;" class="btn btn-block btn-primary" ng-click="ClearSales()"><i class="fa fa-group"></i>&nbsp; Add Sales</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_filter">
+                            <input ng-model="SearchUser" class="form-control" type="search" placeholder="Search" style="float: right;width: 200px;margin-right: 10px;">
+                            <label style="float: right;margin-right: 10px;margin-top:7px;">Search:</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblProducts2" class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" id="tblPurchase" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortSales('SONO')">
+                                    Sales Order No
+                                    <span ng-show="sortKey=='SONO'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SODate')">
+                                    Sales Order Date
+                                    <span ng-show="sortKey=='SODate'" data-date-format="yyyy-mm-dd" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('CustomerName')">
+                                    Customer Name
+                                    <span ng-show="sortKey=='SupplierName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingName')">
+                                    Shipping Name
+                                    <span ng-show="sortKey=='ShippingName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SubTotal')">
+                                    Sub Total
+                                    <span ng-show="sortKey=='SubTotal'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingCost')">
+                                    Shipping Cost
+                                    <span ng-show="sortKey=='ShippingCost'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Deposite')">
+                                    Deposite
+                                    <span ng-show="sortKey=='Deposite'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('BBShippment')">
+                                    Bal Before Shippment
+                                    <span ng-show="sortKey=='BBShippment'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Total')">
+                                    Total
+                                    <span ng-show="sortKey=='Total'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th>Print Invoice</th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="Sale in Sales | itemsPerPage:SalesitemsPerPage | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{Sale.SONO}}</td>
+                                <td>{{Sale.SODate | date: 'dd-MM-yyyy'}}</td>
+                                <td>{{Sale.CustomerName}}</td>
+                                <td>{{Sale.ShippingName}}</td>
+                                <td>{{Sale.SubTotal}}</td>
+                                <td>{{Sale.ShippingCost}}</td>
+                                <td>{{Sale.Deposite}}</td>
+                                <td>{{Sale.BBShippment}}</td>
+                                <td>{{Sale.Total}}</td>
+                                <!--<img src="../dist/img/previewIcon.png" alt="" class="img-responsive custom-image" id="imgProfileImage" style="cursor:pointer;">-->
+                                <td>
+                                    <!--<button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="DownloadSalesInvoice(Sale.IDNUMBER)"><i class="fa fa-print"></i></button>-->
+                                    <button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="SalesInvoicePreview(Sale.IDNUMBER)"><i><img src="../dist/img/previewIcon.png" alt="" class="img-responsive custom-image" id="imgProfileImage" style="cursor:pointer;width: 30px;height: 30px;"></i></button>
+                                </td>
+                                <td ng-show="false">{{Sale.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="Sales.length > 10" class="form-control" ng-model="SalesitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="Sales.length > 10">&nbsp;&nbsp;  Showing rows of {{Sales.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row jumbotron" ng-show="PrintSales" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <!-- right column -->
+        <div class="col-md-6" style="margin-left:25%">
+            <!-- Horizontal Form -->
+            <div class="box box-body">
+                <!-- form start -->
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-right" ng-click="CloseSalesPreview()" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary pull-right" ng-click="InvoiceSales()" style="margin-right: 10px;" id="btnPrintPurchase"><i class="fa fa-download"></i> Generate PDF</button>
+                </div>
+
+                <form id="SalesInvoice" class="form-horizontal">
+                    <div class="box-body">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2 class="page-header">
+                                    <i class="fa fa-globe"></i> CustomERP
+                                    <small class="pull-right">Date: {{NewSales.SODate | date: 'dd-MM-yyyy'}}</small>
+                                </h2>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row invoice-info">
+                            <h3 style="margin-top: -10px;text-align:  center;"><u>Sales Invoice</u></h3>
+                            <div class="col-sm-4 invoice-col">
+                                Customer:
+                                <br>
+                                <strong>{{NewSales.Customer.CustomerName}}, </strong>
+                                <address>
+                                    {{NewSales.Customer.CustomerAddress}},<br>
+                                    Phone: <strong>{{NewSales.Customer.PhoneNo1}}</strong><br>
+                                    Email: <strong>{{NewSales.Customer.EmailID}}</strong><br>
+
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                Shipping:
+                                <br>
+                                <strong>{{NewSales.ShippingName}}, </strong>
+                                <address>
+                                    {{NewSales.ShippingAddress}},<br>
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                <b>Invoice #{{NewSales.SONo}}</b><br>
+                                <b>Order ID:</b> {{LastSalesID}}<br>
+                                <b>Payment Due:</b> {{NewSales.SODate | date: 'dd-MM-yyyy'}}<br>
+                                <b>Payment Type:</b>{{NewSales.PaymentType == 1? 'Cash':'Credit'}}
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+                                <table datatable="ng" class="table table-hover dataTable" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Image</th>
+                                            <th>Item Name</th>
+                                            <th>Color</th>
+                                            <th>SKU</th>
+                                            <th>UPC</th>
+                                            <th>Qty</th>
+                                            <th>PCS/CTN</th>
+                                            <th>Price</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="itmvrnt in NewSales.ItemVarients track by $index">
+                                            <td style="width:10%;"><img src="{{itmvrnt.ProductImage}}" alt="" class="img-responsive custom-image" id="imgProfileImage" style="cursor:pointer;width:100%;height:100%;max-width: 70px;max-height: 40px;"></td>
+                                            <td>{{itmvrnt.ItemName}}</td>
+                                            <td>{{itmvrnt.Color}}</td>
+                                            <td>{{itmvrnt.SKU}}</td>
+                                            <td>{{itmvrnt.UPC}}</td>
+                                            <td>{{itmvrnt.Qty}}</td>
+                                            <td>PCS</td>
+                                            <td>{{itmvrnt.Price}}</td>
+                                            <td>{{itmvrnt.TotalAmount}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-xs-6">
+                                <p class="lead">Amount {{NewSales.SODate | date: 'dd-MM-yyyy'}}</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Subtotal:</th>
+                                            <td>{{NewSales.SubTotal}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping Cost:</th>
+                                            <td>{{NewSales.ShippingCost}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td>{{NewSales.FullTotal}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Currency:</th>
+                                            <td>USD</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Deposite (in %):</th>
+                                            <td>{{NewSales.Deposite}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Before Shipment:</th>
+                                            <td>{{NewSales.BBShippment}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Balance:</th>
+                                            <td>{{NewSales.Total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Incoterm:</th>
+                                            <td>{{NewSales.Incoterms}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </div>
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->

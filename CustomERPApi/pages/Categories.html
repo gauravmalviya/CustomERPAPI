@@ -1,0 +1,138 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Categories
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Categories</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- .modals -->
+
+    <div class="modal fade" id="alertPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="alertMessage">Username and password should not be blank.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_full" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmCategoryPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="font-size:larger;color:white;background-color:#3c8dbc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Delete Category</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="confirmMessage">Are you sure you want to complete the order</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_no" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_full" ng-click="RemoveCategory()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modals -->
+
+    <div class="row jumbotron" ng-show="AddCategory" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">{{CategoryPopupHeading}}</h3>
+                    <h5 class="modal-title" style="color:red">{{Errormessage}}</h5>
+                </div>
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Category Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="inputEmail3" ng-model="NewCategory.CategoryName" placeholder="Category Name">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-right" ng-click="CloseAddCategory()">Close</button>
+                    <button type="button" ng-click="SaveCategory()" class="btn btn-primary pull-right" style="margin-right: 10px;" id="btnSave">{{CategoryPopupBtn}}</button>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </div>
+
+    <div class="row jumbotron" ng-show="CategoryGrid" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Categories</h3>
+                    <button style="float:right;width: 150px;" ng-click="ClearCategory()" class="btn btn-block btn-primary"><i class="fa fa-group"></i>&nbsp; Add Category</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_filter">
+                            <input ng-model="SearchUser" class="form-control" type="search" placeholder="Search" style="float: right;width: 200px;margin-right: 10px;">
+                            <label style="float: right;margin-right: 10px;margin-top:7px;">Search:</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblCategories2" class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" id="tblCategories" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortCategory('CategoryName')">
+                                    Category Name
+                                    <span ng-show="sortKey=='CategoryName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortCategory('IsActive')">
+                                    Active Status
+                                    <span ng-show="sortKey=='IsActive'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="Category in Categories| itemsPerPage:CategoryitemsPerPage | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{Category.CategoryName}}</td>
+                                <td>{{Category.IsActive == 1 ? 'Active' : 'DeActive'}}</td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="EditCategory(Category.IDNUMBER)"><i class="fa fa-edit"></i></button></td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="DeleteCategory(Category.IDNUMBER)"><i class="fa fa-trash-o"></i></button></td>
+                                <td ng-show="false">{{Category.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="Categories.length > 10" class="form-control" ng-model="CategoryitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="Categories.length > 10">&nbsp;&nbsp;  Showing rows of {{Categories.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->

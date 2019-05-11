@@ -1,0 +1,235 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Users
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Users</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- .modals -->
+
+    <div class="modal fade" id="alertPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="alertMessage">Username and password should not be blank.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_full" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmUserPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="font-size:larger;color:white;background-color:#3c8dbc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Delete User</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="confirmMessage">Are you sure you want to complete the order</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn_no" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_full" ng-click="RemoveUser()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modals -->
+
+    <div class="row jumbotron" ng-show="AddUser" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <!-- right column -->
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <!-- /.box-header -->
+                <div class="box-header">
+                    <h3 class="box-title">{{userPopupHeading}}</h3>
+                    <h5 class="modal-title" style="color:red">{{Errormessage}}</h5>
+                </div>
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">User ID</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="inputEmail3" ng-model="NewUser.UserID" placeholder="User ID">
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">User Name</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="Email1" ng-model="NewUser.UserName" placeholder="User Name">
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">User Type</label>
+
+                            <div class="col-sm-3">
+                                <!--<input type="email" class="form-control" id="Email2" placeholder="User Type">-->
+                                <select class="form-control" ng-model="NewUser.UserType" id="dlUserType">
+                                    <option value="1" ng-selected="1">Administrator</option>
+                                    <option value="2">General</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">DOB</label>
+
+                            <div class="col-sm-3">
+                                <!--<input type="password" class="form-control" id="inputPassword3" placeholder="DOB">-->
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="NewUser.BOD" id="datepickerBOD">
+                                </div>
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Phone No</label>
+
+                            <div class="col-sm-3">
+                                <!--<input type="text" class="form-control" id="Email3" ng-model="NewUser.MobileNo" placeholder="Phone No">-->
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-phone"></i>
+                                    </div>
+                                    <input type="text" id="UserMobileNo" class="form-control" ng-model="NewUser.MobileNo" maxlength="10" onkeypress="return isNumber(event);">
+                                </div>
+                            </div>
+
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Email</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="Email4" ng-model="NewUser.EmailID" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="NewUser.IDNUMBER <= 0">
+                            <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">Password</label>
+
+                            <div class="col-sm-3">
+                                <input type="password" class="form-control" id="Password1" ng-model="NewUser.pswd" placeholder="Password">
+                            </div>
+
+                            <!--<label for="inputEmail3" class="col-sm-2 control-label" style="text-align:center;">Re-type Password</label>
+
+                            <div class="col-sm-4">
+                                <input type="password" class="form-control" id="Email5" placeholder="Re-type Password">
+                            </div>-->
+
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <!--<div class="box-footer">
+                        <a href="index.html" class="btn btn-default" style="float:right;margin-left:10px;">Cancel</a>
+                        <a href="Users.html" class="btn btn-info pull-right">Save</a>
+                    </div>-->
+                    <!-- /.box-footer -->
+                </form>
+
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default pull-right" ng-click="CloseAddUser()">Close</button>
+                    <button type="button" ng-click="SaveUser()" class="btn btn-primary pull-right" style="margin-right: 10px;" id="btnSave">{{userPopupBtn}}</button>
+                </div>
+            </div>
+            <!--/.col (right) -->
+        </div>
+    </div>
+
+    <div class="row jumbotron" ng-show="UserGrid" style="padding-top:unset;padding-bottom:unset;background-color: unset;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Users</h3>
+                    <button style="float:right;width: 150px;" ng-click="ClearUser()" ng-class="{ active: AddUser }" class="btn btn-block btn-primary"><i class="fa fa-group"></i>&nbsp; Add User</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_filter">
+                            <input ng-model="SearchUser" class="form-control" type="search" placeholder="Search" style="float: right;width: 200px;margin-right: 10px;">
+                            <label style="float: right;margin-right: 10px;margin-top:7px;">Search:</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblUsers2" class="box-body" style="overflow-x: auto;">
+                    <table id="tblUsers" class="table table-striped" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortUser('UserID')">
+                                    User ID
+                                    <span ng-show="sortKey=='UserID'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortUser('UserName')">
+                                    User Name
+                                    <span ng-show="sortKey=='UserName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortUser('EmailID')">
+                                    Email ID
+                                    <span ng-show="sortKey=='EmailID'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortUser('MobileNo')">
+                                    Mobile No
+                                    <span ng-show="sortKey=='MobileNo'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortUser('UserTypeName')">
+                                    User Type
+                                    <span ng-show="sortKey=='UserTypeName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortUser('Active')">
+                                    Active Status
+                                    <span ng-show="sortKey=='Active'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th ng-show="false">BOD</th>
+                                <th ng-show="false">UIDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="User in Users | itemsPerPage:UseritemsPerPage | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{User.UserID}}</td>
+                                <td>{{User.UserName}}</td>
+                                <td>{{User.EmailID}}</td>
+                                <td>{{User.MobileNo}}</td>
+                                <td>{{User.UserTypeName}}</td>
+                                <td>{{User.Active}}</td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="EditUser(User.IDNUMBER)"><i class="fa fa-edit"></i></button></td>
+                                <td><button class="btn" style="font-size: 24px;background-color: transparent;" ng-click="DeleteUser(User.IDNUMBER)"><i class="fa fa-trash-o"></i></button></td>
+                                <td ng-show="false">{{User.BOD}}</td>
+                                <td ng-show="false">{{User.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="Users.length > 10" class="form-control" ng-model="UseritemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="Users.length > 10">&nbsp;&nbsp;  Showing rows of {{Users.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!--<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
+

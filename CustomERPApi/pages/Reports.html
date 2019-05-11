@@ -1,0 +1,428 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Reports
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Reports</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- .modals -->
+    <div class="row" id="PanelPurchase">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Purchase Records</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:center;">From Date</label>
+
+                        <div class="col-sm-4" style="margin-bottom: 6px;">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="Report.PurchaseFromDate" id="datepickerPurchaseFromDate">
+                            </div>
+                        </div>
+                        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:center;">To Date</label>
+
+                        <div class="col-sm-4" style="margin-bottom: 6px;">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="Report.PurchaseToDate" id="datepickerPurchaseToDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button style="float:right;width: 150px;margin-right: 20px;" class="btn btn-block btn-primary" ng-click="changeDatePurchase()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblProducts2" class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" id="tblPurchase" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortPurchase('PONo')">
+                                    Purchase Order No
+                                    <span ng-show="sortKey=='PONo'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('PODate')">
+                                    Purchase Order Date
+                                    <span ng-show="sortKey=='PODate'" data-date-format="yyyy-mm-dd" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('SupplierName')">
+                                    Supplier Name
+                                    <span ng-show="sortKey=='SupplierName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('ShippingName')">
+                                    Shipping Name
+                                    <span ng-show="sortKey=='ShippingName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('SubTotal')">
+                                    Sub Total
+                                    <span ng-show="sortKey=='SubTotal'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('ShippingCost')">
+                                    Shipping Cost
+                                    <span ng-show="sortKey=='ShippingCost'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('Deposite')">
+                                    Deposite
+                                    <span ng-show="sortKey=='Deposite'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('BBShippment')">
+                                    Bal Before Shippment
+                                    <span ng-show="sortKey=='BBShippment'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('Total')">
+                                    Total
+                                    <span ng-show="sortKey=='Total'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+                        <!--myfilter: Report.PurchaseFromDate: Report.PurchaseToDate: 'PODate'-->
+                        <tbody>
+                            <tr dir-Paginate="Purchase in PurchaseData | itemsPerPage:PurchaseitemsPerPage  | orderBy:sortKey:reverse ">
+                                <td>{{Purchase.PONo}}</td>
+                                <td>{{Purchase.PODate | date: 'yyyy-MM-dd'}}</td>
+                                <td>{{Purchase.SupplierName}}</td>
+                                <td>{{Purchase.ShippingName}}</td>
+                                <td>{{Purchase.SubTotal}}</td>
+                                <td>{{Purchase.ShippingCost}}</td>
+                                <td>{{Purchase.Deposite}}</td>
+                                <td>{{Purchase.BBShippment}}</td>
+                                <td>{{Purchase.Total}}</td>
+                                <td ng-show="false">{{Purchase.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="PurchaseData.length > 10" class="form-control" ng-model="PurchaseitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="PurchaseData.length > 10">&nbsp;&nbsp;  Showing rows of {{PurchaseData.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row" id="panelSales" style="display:none;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Sales Records</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:center;">From Date</label>
+
+                        <div class="col-sm-4" style="margin-bottom: 6px;">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="Report.SalesFromDate" id="datepickerSalesFromDate">
+                            </div>
+                        </div>
+                        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:center;">To Date</label>
+
+                        <div class="col-sm-4" style="margin-bottom: 6px;">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" readonly="readonly" data-date-format="yyyy-mm-dd" ng-model="Report.SalesToDate" id="datepickerSalesToDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button style="float:right;width: 150px;margin-right: 20px;" class="btn btn-block btn-primary" ng-click="changeDateSales()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortSales('SONO')">
+                                    Sales Order No
+                                    <span ng-show="sortKey=='SONO'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SODate')">
+                                    Sales Order Date
+                                    <span ng-show="sortKey=='SODate'" data-date-format="yyyy-mm-dd" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('CustomerName')">
+                                    Customer Name
+                                    <span ng-show="sortKey=='SupplierName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingName')">
+                                    Shipping Name
+                                    <span ng-show="sortKey=='ShippingName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SubTotal')">
+                                    Sub Total
+                                    <span ng-show="sortKey=='SubTotal'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingCost')">
+                                    Shipping Cost
+                                    <span ng-show="sortKey=='ShippingCost'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Deposite')">
+                                    Deposite
+                                    <span ng-show="sortKey=='Deposite'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('BBShippment')">
+                                    Bal Before Shippment
+                                    <span ng-show="sortKey=='BBShippment'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Total')">
+                                    Total
+                                    <span ng-show="sortKey=='Total'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+                        <!--myfilter: Report.SalesFromDate: Report.SalesToDate: 'SODate'-->
+                        <tbody>
+                            <tr dir-Paginate="Sale in SalesData | itemsPerPage:SalesitemsPerPage | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{Sale.SONO}}</td>
+                                <td>{{Sale.SODate | date: 'dd-MM-yyyy'}}</td>
+                                <td>{{Sale.CustomerName}}</td>
+                                <td>{{Sale.ShippingName}}</td>
+                                <td>{{Sale.SubTotal}}</td>
+                                <td>{{Sale.ShippingCost}}</td>
+                                <td>{{Sale.Deposite}}</td>
+                                <td>{{Sale.BBShippment}}</td>
+                                <td>{{Sale.Total}}</td>
+                                <td ng-show="false">{{Sale.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="SalesData.length > 10" class="form-control" ng-model="SalesitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="SalesData.length > 10">&nbsp;&nbsp;  Showing rows of {{SalesData.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row" id="PanelItemPurchase" style="display:none;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Item Wise Purchase Records</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Item Name</label>
+
+                            <div class="col-sm-5">
+                                <select class="form-control" id="NewItemVarientID" ng-model="ItemWisePurchaseItemID" ng-options="item.IDNUMBER as item.ItemName for item in Products">
+                                    <option value="">Select Item</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button style="float:right;width: 150px;margin-right: 20px;" class="btn btn-block btn-primary" ng-click="SearchItemWisePurchase()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div id="tblProducts2" class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" id="tblPurchase" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortPurchase('PONo')">
+                                    Purchase Order No
+                                    <span ng-show="sortKey=='PONo'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('PODate')">
+                                    Purchase Order Date
+                                    <span ng-show="sortKey=='PODate'" data-date-format="yyyy-mm-dd" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('SupplierName')">
+                                    Supplier Name
+                                    <span ng-show="sortKey=='SupplierName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('ShippingName')">
+                                    Shipping Name
+                                    <span ng-show="sortKey=='ShippingName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('SubTotal')">
+                                    Sub Total
+                                    <span ng-show="sortKey=='SubTotal'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('ShippingCost')">
+                                    Shipping Cost
+                                    <span ng-show="sortKey=='ShippingCost'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('Deposite')">
+                                    Deposite
+                                    <span ng-show="sortKey=='Deposite'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('BBShippment')">
+                                    Bal Before Shippment
+                                    <span ng-show="sortKey=='BBShippment'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortPurchase('Total')">
+                                    Total
+                                    <span ng-show="sortKey=='Total'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="Purchase in ItemWisePurchase | itemsPerPage:PurchaseitemsPerPage track by $index | orderBy:sortKey:reverse ">
+                                <td>{{Purchase.PONo}}</td>
+                                <td>{{Purchase.PODate | date: 'yyyy-MM-dd'}}</td>
+                                <td>{{Purchase.SupplierName}}</td>
+                                <td>{{Purchase.ShippingName}}</td>
+                                <td>{{Purchase.SubTotal}}</td>
+                                <td>{{Purchase.ShippingCost}}</td>
+                                <td>{{Purchase.Deposite}}</td>
+                                <td>{{Purchase.BBShippment}}</td>
+                                <td>{{Purchase.Total}}</td>
+                                <td ng-show="false">{{Purchase.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="ItemWisePurchase.length > 10" class="form-control" ng-model="PurchaseitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="ItemWisePurchase.length > 10">&nbsp;&nbsp;  Showing rows of {{ItemWisePurchase.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row" id="PanelItemSales" style="display:none;">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Item Wise Sales Records</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:center;">Item Name</label>
+
+                            <div class="col-sm-5">
+                                <select class="form-control" id="NewItemVarientID" ng-model="ItemWiseSalesItemID" ng-options="item.IDNUMBER as item.ItemName for item in Products">
+                                    <option value="">Select Item</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button style="float:right;width: 150px;margin-right: 20px;" class="btn btn-block btn-primary" ng-click="SearchItemWiseSales()"><i class="fa fa-search"></i>&nbsp; Search</button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow-x: auto;">
+                    <table datatable="ng" class="table table-striped dataTable" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th ng-click="SortSales('SONO')">
+                                    Sales Order No
+                                    <span ng-show="sortKey=='SONO'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SODate')">
+                                    Sales Order Date
+                                    <span ng-show="sortKey=='SODate'" data-date-format="yyyy-mm-dd" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('CustomerName')">
+                                    Customer Name
+                                    <span ng-show="sortKey=='SupplierName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingName')">
+                                    Shipping Name
+                                    <span ng-show="sortKey=='ShippingName'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('SubTotal')">
+                                    Sub Total
+                                    <span ng-show="sortKey=='SubTotal'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('ShippingCost')">
+                                    Shipping Cost
+                                    <span ng-show="sortKey=='ShippingCost'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Deposite')">
+                                    Deposite
+                                    <span ng-show="sortKey=='Deposite'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('BBShippment')">
+                                    Bal Before Shippment
+                                    <span ng-show="sortKey=='BBShippment'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-click="SortSales('Total')">
+                                    Total
+                                    <span ng-show="sortKey=='Total'" style="float: right;" ng-class="{'fa fa-sort-amount-asc':reverse,'fa fa-sort-amount-desc':!reverse}"></span>
+                                </th>
+                                <th ng-show="false">IDNUMBER</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr dir-Paginate="Sale in ItemWiseSales | itemsPerPage:SalesitemsPerPage track by $index | orderBy:sortKey:reverse | filter: SearchUser ">
+                                <td>{{Sale.SONO}}</td>
+                                <td>{{Sale.SODate | date: 'dd-MM-yyyy'}}</td>
+                                <td>{{Sale.CustomerName}}</td>
+                                <td>{{Sale.ShippingName}}</td>
+                                <td>{{Sale.SubTotal}}</td>
+                                <td>{{Sale.ShippingCost}}</td>
+                                <td>{{Sale.Deposite}}</td>
+                                <td>{{Sale.BBShippment}}</td>
+                                <td>{{Sale.Total}}</td>
+                                <td ng-show="false">{{Sale.IDNUMBER}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <select ng-show="ItemWiseSales.length > 10" class="form-control" ng-model="SalesitemsPerPage" style="display: table-footer-group;width: 65px;"><option value="10" ng-selected="10">10</option><option value="20">20</option><option value="50">50</option><option value="0">All</option></select>
+
+                    <span ng-show="ItemWiseSales.length > 10">&nbsp;&nbsp;  Showing rows of {{ItemWiseSales.length}} entries</span>
+                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" style="float: right;margin-top:-20px;"></dir-pagination-controls>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div class="row" id="PanelPackingList">
+
+    </div>
+
+    <div class="row" id="PanelStock">
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+<!--<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
